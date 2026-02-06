@@ -1,5 +1,8 @@
 ## Hi there 👋
 
+<img width="256" height="256" alt="one percent" src="https://github.com/user-attachments/assets/42638462-5e2f-4414-bb4b-0a557879d9f8" />
+
+
 <!--
 
 **Here are some ideas to get you started:**
