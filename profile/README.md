@@ -11,5 +11,5 @@
 🧙 Remember, you can do mighty things with the power of [Markdown](https://docs.github.com/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
 -->
 
-<img width="1024" height="1024" alt="ChatGPT Image Nov 30, 2025, 08_07_22 PM" src="https://github.com/user-attachments/assets/af4b7c0f-cedf-4722-a7e5-ca182a767411" />
+<img width="256" height="2561024" alt="ChatGPT Image Nov 30, 2025, 08_07_22 PM" src="https://github.com/user-attachments/assets/af4b7c0f-cedf-4722-a7e5-ca182a767411" />
 
