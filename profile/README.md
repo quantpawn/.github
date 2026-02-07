@@ -30,6 +30,7 @@ This ambitious goal constantly drives our exploration and innovation.
 | Deploy First Profitable Model   | Oct 2025        | We start to profit and see positive DPR      |
 | Continuous Evolution  | Ongoing        | We have so many new ideas to implement and DPR keeps up     |
 
+<img width="512" height="256" alt="dpr_pitchdeck_chart_annotated" src="https://github.com/user-attachments/assets/cb34b23e-44c1-4d07-9e1a-5c4fd6cd75a1" />
 
 
 We are currently in a state of continuous evolution and refinement.
