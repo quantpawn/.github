@@ -52,6 +52,25 @@ $endif$
 \begin{document}
 \maketitle
 
+$if(subtitle)$
+\begin{quote}
+\itshape $subtitle$
+\end{quote}
+\vspace{0.75em}
+$endif$
+
+$if(quote)$
+\begin{quote}
+\itshape $quote$
+\end{quote}
+$if(quote-author)$
+\begin{flushright}
+--- $quote-author$
+\end{flushright}
+$endif$
+\vspace{0.75em}
+$endif$
+
 $if(abstract)$
 \begin{abstract}
 $abstract$

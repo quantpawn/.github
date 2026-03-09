@@ -8,7 +8,5 @@ metadata-file:
 template: template-journal.tex
 pdf-engine: lualatex
 number-sections: true
-toc: true
-toc-depth: 2
 variables:
   colorlinks: true

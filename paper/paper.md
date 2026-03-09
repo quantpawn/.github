@@ -13,8 +13,7 @@ keywords:
     - Crypto
     - Quantitative Trading
     - Multi-Agent Systems
-bibliography: references.bib
-link-citations: false
+
 ---
 
 
