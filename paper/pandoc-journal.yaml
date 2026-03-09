@@ -9,6 +9,5 @@ filters:
   - graph-block.lua
 template: template-journal.tex
 pdf-engine: lualatex
-number-sections: true
 variables:
   colorlinks: true
