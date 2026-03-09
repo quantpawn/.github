@@ -5,6 +5,8 @@ input-files:
   - paper.md
 metadata-file:
   - metadata.yaml
+filters:
+  - graph-block.lua
 template: template-journal.tex
 pdf-engine: lualatex
 number-sections: true
