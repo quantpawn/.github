@@ -4,111 +4,117 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>QuantPawn</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #f5f5f7;
-      --bg-soft: #fbfbfd;
-      --card: rgba(255, 255, 255, 0.82);
-      --text: #1d1d1f;
-      --muted: #6e6e73;
-      --line: #d9d9de;
-      --link: #0066cc;
-      --btn: #0071e3;
-      --btn-hover: #0077ed;
+      --bg: #ffffff;
+      --text: #0a0a0a;
+      --muted: #52525b;
+      --line: #e4e4e7;
+      --btn-text: #fafafa;
+      --btn-bg: #0a0a0a;
+      --btn-bg-hover: #383838;
+      --ghost-bg-hover: #f4f4f5;
     }
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
       color: var(--text);
-      background:
-        radial-gradient(1200px 600px at 50% -200px, #ffffff 0%, var(--bg) 65%),
-        var(--bg);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
     .wrap {
-      max-width: 1100px;
+      max-width: 1180px;
       margin: 0 auto;
-      padding: 56px 20px 40px;
+      padding: 56px 24px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
     }
     .hero {
       text-align: center;
-      margin-bottom: 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
     }
     h1 {
       margin: 0;
-      font-size: clamp(48px, 8vw, 84px);
+      font-size: clamp(40px, 6vw, 56px);
       font-weight: 700;
-      line-height: 1.02;
-      letter-spacing: -0.03em;
+      line-height: 1;
+      letter-spacing: -0.025em;
     }
     .sub {
-      margin: 14px auto 0;
-      max-width: 860px;
+      margin: 0;
+      max-width: 760px;
       color: var(--muted);
-      font-size: clamp(19px, 2.6vw, 30px);
-      line-height: 1.2;
-      letter-spacing: -0.01em;
+      font-size: clamp(18px, 2.2vw, 26px);
+      line-height: 1.35;
     }
     .links {
-      margin-top: 24px;
+      margin-top: 4px;
       display: flex;
       justify-content: center;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
     }
     .btn {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       text-decoration: none;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 500;
       border-radius: 999px;
-      padding: 12px 20px;
-      transition: all .2s ease;
+      height: 48px;
+      padding: 0 20px;
+      border: 1px solid var(--line);
+      transition: background-color .15s ease, color .15s ease, border-color .15s ease;
     }
     .btn.primary {
-      color: #fff;
-      background: var(--btn);
+      color: var(--btn-text);
+      background: var(--btn-bg);
+      border-color: transparent;
     }
-    .btn.primary:hover { background: var(--btn-hover); }
+    .btn.primary:hover { background: var(--btn-bg-hover); }
     .btn.ghost {
-      color: var(--link);
-      background: transparent;
-      border: 1px solid #c9dfff;
+      color: var(--text);
+      background: #fff;
     }
-    .btn.ghost:hover { background: #f2f8ff; }
+    .btn.ghost:hover { background: var(--ghost-bg-hover); }
     .card {
-      margin-top: 32px;
-      background: var(--card);
+      background: #fff;
       border: 1px solid var(--line);
-      border-radius: 24px;
+      border-radius: 12px;
       overflow: hidden;
-      backdrop-filter: saturate(180%) blur(20px);
-      box-shadow:
-        0 20px 50px rgba(0,0,0,0.08),
-        0 2px 8px rgba(0,0,0,0.03);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
     }
     .pdf {
       width: 100%;
-      height: 76vh;
-      min-height: 620px;
+      height: 72vh;
+      min-height: 600px;
       border: 0;
       background: #fff;
     }
     .fallback {
-      padding: 14px 18px 16px;
+      padding: 12px 16px;
       border-top: 1px solid var(--line);
       color: var(--muted);
-      font-size: 13px;
+      font-size: 14px;
       text-align: center;
-      background: var(--bg-soft);
+      background: #fafafa;
     }
-    .fallback a { color: var(--link); text-decoration: none; }
+    .fallback a { color: var(--text); text-decoration: underline; }
     .fallback a:hover { text-decoration: underline; }
 
     @media (max-width: 720px) {
-      .wrap { padding-top: 36px; }
-      .pdf { min-height: 520px; height: 70vh; }
-      .card { border-radius: 18px; }
+      .wrap { padding: 36px 16px 48px; }
+      .pdf { min-height: 520px; height: 68vh; }
     }
   </style>
 </head>
