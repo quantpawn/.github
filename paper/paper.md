@@ -1,8 +1,10 @@
 ---
-title: "QuantPawn: A Self-Iteration Trading System"
+title: "QuantPawn: A Self-Iterating Research Systems for Quantitative Trading"
 subtitle: "Even starting with the equivalent of an 8-year-old's intelligence, given sufficient compute resources for iteration, generative AI can eventually beat the best human traders."
 author:
-    - "@codingtmd"
+    - "GITHUB: @codingtmd"
+    - "@answerzhong, @worlddebugger, @xiaoxiaoheimei, @kiryu-coder" 
+    - "@IJiaPu, @JerryL792, @Snoooooow"
 date: "March 9, 2026"
 abstract: |
     In the past, quantitative trading heavily relied on experts or statistical mathematicians to analyze the market, discover trading strategies, and apply them for profit. An effective strategy could take years from discovery to practical deployment. And every iteration is heavily depending in smart individual and the understading of the market.
@@ -10,10 +12,9 @@ abstract: |
     We believe that the advancement of AI, especially the new generation of intelligence represented by Generative AI, fundamentally changes this structure. The inherent reasoning capabilities empower AI with the potential for self-reflection and self-iteration. This article is to present a ai-native structure of quant tradiing system, which is simple, self-iterationable, and with good-enough extension for future AI direction.
 keywords:
     - AI
-    - Crypto
     - Quantitative Trading
     - Multi-Agent Systems
-
+    - Crypto
 ---
 
 
