@@ -189,7 +189,186 @@ In the second stage, the surviving factors are passed to the modeling module for
 
 
 
-## 4. Modeling
+## 4. SKILL + MCP
+
+Skills represent research capabilities, while MCP provides the protocol through which AI agents orchestrate these capabilities.
+
+```graph
+
+AI Agent (reasoning)
+        ↓
+Research Skills
+        ↓
+MCP Interface
+
+```
+
+Take factor discovery as an example, it is implemented through a skill-oriented architecture. The system encapsulates the core operations of factor discovery as reusable research skills. These skills represent higher-level research capabilities such as proposing exploration directions, generating candidate factors, screening signals, and evolving the factor search strategy.
+
+Each skill corresponds to a meaningful step in the factor discovery workflow. The skills are then exposed through MCP-compatible interfaces, enabling AI agents to invoke them programmatically during autonomous experimentation.
+
+In this design, factor discovery is no longer implemented as a fixed algorithm, but as a collection of research skills that AI agents can orchestrate to perform autonomous exploration of the factor space.
+
+```
+AI Research Agents
+│
+├── FactorDiscoveryAgent
+│     ├── skill: propose_direction
+│     ├── skill: generate_factors
+│     └── skill: screen_factors
+│
+├── ModelingAgent
+│     ├── skill: train_model
+│     ├── skill: hyperparam_search
+│     └── skill: marginal_test
+│
+└── EvaluationAgent
+      └── skill: multi_metric_reasoning
+
+```
+
+
+## 5. SKILL v.s. API
+
+This is the key part of how to proper design the skill. As we talked, a skill represents a high-level research capability that encapsulates a complete research action, such as proposing factor discovery directions, generating candidate factors, screening signals, or evaluating strategy performance.
+
+Unlike traditional software APIs, which typically expose low-level computational operations, a skill represents a semantically meaningful research operation. A single skill may internally consist of multiple functions, evaluation steps, and decision logic, but from the perspective of an AI agent it appears as a coherent capability that can be invoked as part of a research workflow.
+
+This distinction is important. In conventional quantitative research systems, APIs usually expose primitive operations such as statistical calculations, feature transformations, or model training utilities. While these primitives are useful for manual programming, they are not well suited for autonomous reasoning systems. AI agents do not naturally reason about sequences of low-level function calls; instead, they operate more effectively when interacting with higher-level capabilities that correspond to meaningful research actions.
+
+For this reason, our system introduces the skill abstraction as the primary interface between AI reasoning and the research infrastructure. Although skills represent higher-level capabilities, we intentionally present their invocation in an API-like pseudocode format. This representation provides several advantages. First, it offers a clear and concise way to document the inputs and outputs of each capability. Second, the structured form aligns naturally with tool-calling mechanisms used by modern AI agents. Finally, the pseudocode format allows readers to understand the semantics of each capability without requiring detailed implementation code.
+
+In this sense, the pseudocode representation should be interpreted as a conceptual interface specification rather than a literal software API. The underlying implementation may involve complex internal logic, state management, or iterative procedures, but these details are abstracted away behind the skill interface.
+
+
+```python
+Example Skill: Candidate Factor Generation(Not Real One)
+
+The following pseudocode illustrates a factor generation skill inside the factor discovery agent. Unlike a simple function that returns raw factor expressions, the skill uses market context, existing factor knowledge, and discovery goals to generate structured candidate factors together with explanations and next-step suggestions.
+
+class GenerateCandidateFactorsSkill:
+
+    def __init__(self, factor_library, search_memory, expression_engine):
+        self.factor_library = factor_library
+        self.search_memory = search_memory
+        self.expression_engine = expression_engine
+
+    def run(self, market_context, existing_factor_pool, discovery_goal, num_candidates):
+        """
+        Generate candidate factors as a structured research action.
+        """
+
+        # Step 1: infer promising discovery directions
+        directions = self._propose_directions(
+            market_context=market_context,
+            existing_factor_pool=existing_factor_pool,
+            discovery_goal=discovery_goal
+        )
+
+        # Step 2: generate candidate expressions under each direction
+        raw_candidates = []
+        for direction in directions:
+            expressions = self.expression_engine.generate(
+                theme=direction["theme"],
+                data_fields=direction["suggested_data"],
+                num_candidates=num_candidates
+            )
+
+            for expr in expressions:
+                raw_candidates.append({
+                    "expression": expr,
+                    "theme": direction["theme"],
+                    "rationale": direction["rationale"]
+                })
+
+        # Step 3: remove invalid or highly redundant candidates
+        filtered_candidates = self._filter_candidates(
+            raw_candidates,
+            existing_factor_pool=existing_factor_pool
+        )
+
+        # Step 4: annotate candidates with explanations and family labels
+        structured_candidates = []
+        for candidate in filtered_candidates:
+            structured_candidates.append({
+                "factor_id": self._make_factor_id(candidate["expression"]),
+                "expression": candidate["expression"],
+                "family": self._assign_family(candidate),
+                "explanation": self._explain(candidate),
+                "expected_signal_type": self._infer_signal_type(candidate)
+            })
+
+        # Step 5: update search memory for future iterations
+        self.search_memory.record_generation(
+            discovery_goal=discovery_goal,
+            generated_factors=structured_candidates
+        )
+
+        # Step 6: produce next-step recommendation
+        recommendation = self._suggest_next_step(structured_candidates)
+
+        return {
+            "candidates": structured_candidates,
+            "recommendation": recommendation
+        }
+
+```
+
+
+The skill is exposed to AI agents through an MCP-compatible interface, which can be invocated as below.
+```json
+{
+  "tool": "generate_candidate_factors",
+  "description": "Generate candidate factors under a proposed discovery goal",
+  "parameters": {
+    "market_context": {
+      "type": "object",
+      "description": "Summary of current market regime and data availability"
+    },
+    "existing_factor_pool": {
+      "type": "array",
+      "description": "Existing factors and their diagnostic summaries"
+    },
+    "discovery_goal": {
+      "type": "string",
+      "description": "Target signal type such as momentum, reversal, or volatility prediction"
+    },
+    "num_candidates": {
+      "type": "integer",
+      "description": "Number of candidate factors to generate"
+    }
+  }
+}
+```
+
+Example response
+```json
+{
+  "candidates": [
+    {
+      "factor_id": "fac_10231",
+      "expression": "zscore(funding_rate,20) * delta(price,3)",
+      "family": "funding_momentum_interaction",
+      "expected_signal_type": "reversal",
+      "explanation": "captures divergence between leveraged positioning and short-term price momentum"
+    },
+    {
+      "factor_id": "fac_10492",
+      "expression": "rolling_mean(open_interest_change,10) / volatility_20d",
+      "family": "derivatives_flow",
+      "expected_signal_type": "trend_confirmation",
+      "explanation": "measures accumulation of leveraged positions relative to volatility"
+    }
+  ],
+  "recommendation": "submit top candidates to screening skill for rank-IC and redundancy evaluation"
+}
+```
+
+
+
+
+
+## 6. Modeling
 
 A key design principle of our system is to fix a stable, controllable, and reproducible modeling backbone while delegating experimental exploration to AI agents. Instead of allowing unrestricted model invention, the modeling layer is grounded in a quantile regression framework implemented with XGBoost. Key modeling operations—including hyperparameter search, factor subset selection, and feature fusion experiments—are exposed through MCP-compatible interfaces. These interfaces allow AI agents to programmatically invoke modeling capabilities and design experiments through structured reasoning and natural-language-driven instructions. 
 
@@ -250,7 +429,7 @@ In contrast, our system treats Sharpe ratio as the primary anchor metric, while 
 
 
 
-## 5. MCP Interface Example
+## 7. MCP Interface Example
 
 Let's use a simple example to explain how MCP interfaces work here with agent. Here we use pseudocode to demo the idea. To enable AI agents to autonomously conduct modeling experiments, the capabilities of the modeling module are exposed through MCP-compatible interfaces. Each interface represents a callable research skill that can be invoked programmatically by AI agents during the research process.
 
@@ -277,17 +456,6 @@ The following example illustrates a simplified MCP interface for training the qu
 }
 ```
 
-Using this interface, an AI agent can launch modeling experiments through structured tool invocation. 
-```graph
-AI Reasoning
-      │
-      ▼
-  MCP Calls
-      │
-      ▼
-Research Skills
-(train / backtest / evaluate)
-```
 
 For example, the agent may decide to test the factor in combination with existing signals.
 ```python
@@ -315,7 +483,7 @@ The modeling system then trains the model and evaluates the resulting trading st
 These metrics are subsequently analyzed by the AI agent within the Sharpe-anchored multi-metric evaluation framework, allowing the agent to reason about the usefulness of the factor and propose further experiments.
 
 
-## 6. Feedback-Driven Loop
+## 8. Feedback-Driven Loop
 
 A key feature of our system is the bidirectional feedback loop between factor discovery and modeling. While the factor discovery module proposes new candidate factors and performs preliminary screening, the modeling module provides deeper evaluation results based on full model training and backtesting. The feedback produced by the modeling stage—including improvements or degradations in Sharpe ratio and other metrics—is fed back into the factor discovery agent.
 
@@ -326,7 +494,7 @@ In this architecture, factor discovery is no longer a static search process but 
 
 
 
-## 6. Human Participation
+## 9. Human Participation
 
 While AI systems are capable of large-scale search and experimentation, human intuition and domain knowledge can still help accelerate convergence toward promising research directions and avoid unproductive regions of the search space.
 
@@ -336,8 +504,20 @@ Our system shifts the role of humans from primary decision-makers to cognitive a
 Importantly, the system does not depend on human input to function. However, when available, human cognition and imagination can help guide exploration and accelerate the discovery process. Over time, as AI agents become increasingly capable of interpreting data and generating hypotheses independently, the role of human participation may gradually diminish.
 
 
+## 10. Application in Cryptocurrency Markets
 
-## 8. Conclusion
+The system described in this work is applied primarily to cryptocurrency markets. While the proposed architecture is general and can be extended to other asset classes, the crypto market provides a particularly suitable environment for AI-driven autonomous research systems.
+
+First, cryptocurrency markets operate continuously, 24 hours a day and 7 days a week, unlike traditional financial markets that follow fixed trading sessions. This continuous operation allows AI agents to observe market behavior, conduct experiments, and update strategies without interruption, enabling faster research iteration cycles.
+
+Second, crypto markets provide highly accessible and granular data. Market data—including prices, funding rates, order book dynamics, and derivatives information—is widely available through public APIs. The openness of the ecosystem makes it possible to construct large-scale data pipelines and conduct automated experimentation with relatively low barriers.
+
+Third, the crypto market is characterized by rapid regime shifts and evolving market structures. New participants, instruments, and trading behaviors emerge frequently. This dynamic environment creates a natural setting for adaptive systems that continuously generate and evaluate new trading signals.
+
+And the most important, the crypto ecosystem itself is natively digital and programmable, making it highly compatible with automated research and execution infrastructures. 
+
+
+## 11. Conclusion
 
 A central idea of our approach is to transform the factor discovery and modeling process into a self-iterative AI system. 
 
