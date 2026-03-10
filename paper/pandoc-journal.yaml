@@ -1,0 +1,13 @@
+from: markdown+tex_math_dollars+implicit_figures
+to: pdf
+output-file: paper.pdf
+input-files:
+  - paper.md
+metadata-file:
+  - metadata.yaml
+filters:
+  - graph-block.lua
+template: template-journal.tex
+pdf-engine: lualatex
+variables:
+  colorlinks: true

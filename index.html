@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QuantPawn</title>
+  <style>
+    :root {
+      --bg: #f5f5f7;
+      --bg-soft: #fbfbfd;
+      --card: rgba(255, 255, 255, 0.82);
+      --text: #1d1d1f;
+      --muted: #6e6e73;
+      --line: #d9d9de;
+      --link: #0066cc;
+      --btn: #0071e3;
+      --btn-hover: #0077ed;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 600px at 50% -200px, #ffffff 0%, var(--bg) 65%),
+        var(--bg);
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 56px 20px 40px;
+    }
+    .hero {
+      text-align: center;
+      margin-bottom: 26px;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(48px, 8vw, 84px);
+      font-weight: 700;
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+    }
+    .sub {
+      margin: 14px auto 0;
+      max-width: 860px;
+      color: var(--muted);
+      font-size: clamp(19px, 2.6vw, 30px);
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+    .links {
+      margin-top: 24px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+      border-radius: 999px;
+      padding: 12px 20px;
+      transition: all .2s ease;
+    }
+    .btn.primary {
+      color: #fff;
+      background: var(--btn);
+    }
+    .btn.primary:hover { background: var(--btn-hover); }
+    .btn.ghost {
+      color: var(--link);
+      background: transparent;
+      border: 1px solid #c9dfff;
+    }
+    .btn.ghost:hover { background: #f2f8ff; }
+    .card {
+      margin-top: 32px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      overflow: hidden;
+      backdrop-filter: saturate(180%) blur(20px);
+      box-shadow:
+        0 20px 50px rgba(0,0,0,0.08),
+        0 2px 8px rgba(0,0,0,0.03);
+    }
+    .pdf {
+      width: 100%;
+      height: 76vh;
+      min-height: 620px;
+      border: 0;
+      background: #fff;
+    }
+    .fallback {
+      padding: 14px 18px 16px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+      background: var(--bg-soft);
+    }
+    .fallback a { color: var(--link); text-decoration: none; }
+    .fallback a:hover { text-decoration: underline; }
+
+    @media (max-width: 720px) {
+      .wrap { padding-top: 36px; }
+      .pdf { min-height: 520px; height: 70vh; }
+      .card { border-radius: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <h1>QuantPawn</h1>
+      <p class="sub">An AI-native, self-iterating quant research system for crypto.</p>
+      <div class="links">
+        <a class="btn primary" href="paper/paper_v1.pdf">Read Paper</a>
+        <a class="btn ghost" href="paper/paper.md">View Source</a>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Paper PDF Viewer">
+      <iframe class="pdf" src="paper/paper_v1.pdf#view=FitH" title="QuantPawn Paper"></iframe>
+      <div class="fallback">
+        If the PDF does not load in your browser, open it directly:
+        <a href="paper/paper_v1.pdf">paper_v1.pdf</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

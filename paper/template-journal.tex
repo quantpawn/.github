@@ -1,0 +1,148 @@
+\documentclass[$if(fontsize)$$fontsize$,$endif$$if(papersize)$$papersize$paper,$endif$]{article}
+
+\usepackage{iftex}
+\ifPDFTeX
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\else
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}
+\setsansfont{DejaVu Sans}
+\setmonofont{DejaVu Sans Mono}
+\fi
+\usepackage{microtype}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{framed}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{calc}
+\usepackage{etoolbox}
+\usepackage{adjustbox}
+\usepackage{fvextra}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+\RecustomVerbatimEnvironment{Verbatim}{Verbatim}{
+	breaklines=true,
+	breakanywhere=true,
+	fontsize=\scriptsize
+}
+
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{
+	breaklines=true,
+	breakanywhere=true,
+	fontsize=\scriptsize,
+	commandchars=\\\{\}
+}
+
+$if(highlighting-macros)$
+$highlighting-macros$
+$endif$
+
+\definecolor{shadecolor}{RGB}{248,248,248}
+\makeatletter
+\@ifundefined{Shaded}{%
+  \newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}%
+}{%
+  \renewenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}%
+}
+\makeatother
+
+\RecustomVerbatimEnvironment{Verbatim}{Verbatim}{
+	breaklines=true,
+	breakanywhere=true,
+	fontsize=\scriptsize
+}
+
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{
+	breaklines=true,
+	breakanywhere=true,
+	fontsize=\scriptsize,
+	commandchars=\\\{\}
+}
+
+$if(listings)$
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily\small,breaklines=true,frame=single}
+$endif$
+
+$if(geometry)$
+\geometry{$for(geometry)$$geometry$$sep$,$endfor$}
+$else$
+\geometry{margin=1in}
+$endif$
+
+$if(colorlinks)$
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
+$else$
+\hypersetup{hidelinks}
+$endif$
+
+$if(linestretch)$
+\setstretch{$linestretch$}
+$endif$
+
+\title{$title$}
+\author{$for(author)$$author$$sep$ \\ $endfor$}
+\date{$date$}
+
+\providecommand{\tightlist}{%
+	\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\setcounter{secnumdepth}{0}
+
+\begin{document}
+\maketitle
+
+$if(subtitle)$
+\begin{quote}
+\itshape $subtitle$
+\end{quote}
+\vspace{0.75em}
+$endif$
+
+$if(quote)$
+\begin{quote}
+\itshape $quote$
+\end{quote}
+$if(quote-author)$
+\begin{flushright}
+--- $quote-author$
+\end{flushright}
+$endif$
+\vspace{0.75em}
+$endif$
+
+$if(abstract)$
+\begin{abstract}
+$abstract$
+\end{abstract}
+$endif$
+
+$if(keywords)$
+\noindent\textbf{Keywords:} $for(keywords)$$keywords$$sep$, $endfor$
+\vspace{1em}
+$endif$
+
+$if(toc)$
+{
+\hypersetup{linkcolor=black}
+\tableofcontents
+}
+\newpage
+$endif$
+
+$body$
+
+$if(bibliography)$
+$if(nocite-ids)$
+\nocite{$for(nocite-ids)$$it$$sep$, $endfor$}
+$endif$
+$endif$
+
+\end{document}
