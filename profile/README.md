@@ -1,5 +1,6 @@
 # 1% (One Percent)
 > Tackling the trading problem from an AI-centric perspective
+> https://quantpawn.github.io/.github/
 
 <img width="256" height="256" alt="ChatGPT Image Nov 30, 2025, 08_07_22 PM" src="https://github.com/user-attachments/assets/af4b7c0f-cedf-4722-a7e5-ca182a767411" />
 
